@@ -1,0 +1,59 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Agent {
+  hostname: String!
+  name: String!
+  version: String!
+}
+
+type Destination {
+  bytes: Int!
+  ip: String!
+  mac: String
+  packets: Int
+  port: Int!
+}
+
+type Event {
+  dataset: String!
+  duration: Int!
+  start: String!
+  end: String!
+}
+
+type Flow {
+  final: Boolean!
+  id: String!
+  vlan: Int!
+}
+
+type Network {
+  bytes: Int!
+  communityId: String!
+  packets: Int
+  transport: String!
+  type: String!
+}
+
+type Source {
+  bytes: Int!
+  ip: String!
+  mac: String
+  packets: Int
+  port: Int!
+}
+
+type FlowEvent {
+  agent: Agent!
+  destination: Destination!
+  event: Event!
+  flow: Flow!
+  network: Network!
+  source: Source!
+}
+
+type Query {
+  flows: [FlowEvent!]!
+}
