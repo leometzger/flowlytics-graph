@@ -3,7 +3,7 @@ import {JwtService} from '@nestjs/jwt';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {User} from '../users/users.models'
-import {hash} from 'bcrypt'
+import {compareSync} from 'bcrypt'
 
 @Injectable()
 export class AuthService {
@@ -14,16 +14,17 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.userRepository.findOne({where: {username}});
-    const hashedPass = await hash(pass, 10)
-    if (user && user.password === hashedPass) {
+    const isAuthValid = user && compareSync(pass, user.password)
+
+    if (isAuthValid) {
       const { password, ...result } = user;
       return result;
     }
     return null;
   }
 
-  async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+  async login(user: User) {
+    const payload = {username: user.username, sub: user.id};
     return {
       access_token: this.jwtService.sign(payload),
     };

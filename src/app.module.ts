@@ -1,8 +1,6 @@
 import entities from './app.entities'
 
 import {Module} from '@nestjs/common';
-import {AppController} from './app.controller';
-import {AppService} from './app.service';
 import {ConfigModule, ConfigService} from '@nestjs/config';
 import {GraphQLModule} from '@nestjs/graphql';
 import {FlowsModule} from './flows/flows.module'
@@ -36,13 +34,6 @@ import {TypeOrmModule} from '@nestjs/typeorm';
     FlowsModule,
     AuthModule,
     UsersModule
-  ],
-  controllers: [AppController],
-  providers: [
-    {
-      provide: AppService, 
-      useClass: AppService
-    },
   ],
 })
 export class AppModule {}

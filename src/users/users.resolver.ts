@@ -5,49 +5,41 @@ import {Repository} from 'typeorm';
 import {User} from './users.models'
 import {UserInput} from './users.mutations'
 import {GqlAuthGuard} from '../auth/graphql-guard'
-import {hash} from 'bcrypt';
+import {UsersFactory} from './users.factory';
 
 
 Resolver(of => User)
 export class UsersResolver {
 
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>
+    @InjectRepository(User) private userRepository: Repository<User>,
+    private readonly userFactory: UsersFactory
   ) {}
 
   @Query(returns => [User])
+  @UseGuards(GqlAuthGuard)
   users(): Promise<User[]> {
     return this.userRepository.find()
   }
 
   @Mutation(type => User)
   async createSuperUser(@Args({name: 'user'}) userIn: UserInput) {
-    const userCount = await this.userRepository.count()
+    const superUserExists= await this.userRepository.count()
 
-    if(userCount >= 1) {
+    if(superUserExists) {
       throw new NotAcceptableException()
     }
+    const user = await this.userFactory.createSuperuser(userIn)
 
-    const hashedPass = await hash(userIn.password, 10)
-    const user = new User({
-      username: userIn.username,
-      email: userIn.email, 
-      password: hashedPass,
-      isAdmin: true, 
-    }) 
     await this.userRepository.save(user)
     return user
   }
 
   @Mutation(type => User)
+  @UseGuards(GqlAuthGuard)
   async createUser(@Args({name: 'user'}) userIn: UserInput) {
-    const hashedPass = await hash(userIn.password, 10)
-    const user = new User({
-      username: userIn.username,
-      email: userIn.email, 
-      password: hashedPass,
-      isAdmin: false, 
-    }) 
+    const user = await this.userFactory.createUser(userIn)
+
     await this.userRepository.save(user)
     return user
   }

@@ -2,6 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type User {
+  id: Int!
+  username: String!
+  email: String!
+  isAdmin: Boolean!
+}
+
 type Agent {
   hostname: String!
   name: String!
@@ -54,6 +61,28 @@ type FlowEvent {
   source: Source!
 }
 
+type AuthToken {
+  access_token: String!
+}
+
 type Query {
   flows: [FlowEvent!]!
+  users: [User!]!
+}
+
+type Mutation {
+  createSuperUser(user: UserInput!): User!
+  createUser(user: UserInput!): User!
+  login(login: LoginInput!): AuthToken!
+}
+
+input UserInput {
+  username: String!
+  password: String!
+  email: String!
+}
+
+input LoginInput {
+  username: String!
+  password: String!
 }
