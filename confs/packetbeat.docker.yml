@@ -1,5 +1,4 @@
-packetbeat.interfaces.device: eno1
-packetbeat.interfaces.auto_promisc_mode: true
+packetbeat.interfaces.device: any
 
 packetbeat.flows:
   timeout: 30s
@@ -35,7 +34,7 @@ packetbeat.protocols.cassandra:
   ports: [9042]
 
 processors:
-- add_cloud_metadata: ~
+  - add_cloud_metadata: ~
 
 output.elasticsearch:
-  hosts: ["localhost:9200"]
+  hosts: ['localhost:9200']

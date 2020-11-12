@@ -3,21 +3,34 @@ version: '3.8'
 services:
   elasticsearch:
     image: 'docker.elastic.co/elasticsearch/elasticsearch:7.8.0'
-    network_mode: "host"
-    ports: 
+    network_mode: 'host'
+    ports:
       - '9200:9200'
       - '9300:9300'
-    environment: 
+    environment:
       - discovery.type=single-node
 
   packetbeat:
     image: 'docker.elastic.co/beats/packetbeat:7.8.0'
     user: 'packetbeat'
-    network_mode: "host"
+    network_mode: 'host'
     volumes:
-      - "./confs/packetbeat.docker.yml:/usr/share/packetbeat/packetbeat.yml"
-    depends_on: 
+      - './confs/packetbeat.docker.yml:/usr/share/packetbeat/packetbeat.yml'
+    depends_on:
       - elasticsearch
     cap_add:
       - NET_ADMIN
       - NET_RAW
+
+  mariadb:
+    image: mariadb
+    network_mode: 'host'
+    env_file:
+      - ./confs/db.env
+    ports:
+      - '3306:3306'
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
