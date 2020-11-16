@@ -33,7 +33,7 @@ import {TypeOrmModule} from '@nestjs/typeorm';
     }),
     FlowsModule,
     AuthModule,
-    UsersModule
+    UsersModule,
   ],
 })
 export class AppModule {}

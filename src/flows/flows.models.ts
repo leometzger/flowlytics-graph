@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import {Field, Int, ObjectType} from '@nestjs/graphql';
 import {GraphQLModel} from '../common/graphql'
 
 @ObjectType()
@@ -44,6 +44,12 @@ export class Event extends GraphQLModel<Event> {
 
   @Field()
   end: string
+
+  @Field()
+  kind: 'event'
+
+  @Field()
+  category: string
 }
 
 @ObjectType()
@@ -64,7 +70,7 @@ export class Network extends GraphQLModel<Network> {
   bytes: number
 
   @Field()
-  communityId: string
+  communityId?: string
 
   @Field(type => Int, {nullable: true})
   packets?: number
@@ -72,6 +78,12 @@ export class Network extends GraphQLModel<Network> {
   @Field()
   transport: string
 
+  @Field()
+  direction: string
+
+  @Field()
+  protocol: string
+  
   @Field()
   type: string
 }
@@ -95,10 +107,46 @@ export class Source extends GraphQLModel<Source> {
 }
 
 @ObjectType()
-export class FlowEvent {
-  constructor(init?: Partial<FlowEvent>) {
-    Object.assign(this, init)
-  }
+export class Server extends GraphQLModel<Server> {
+  @Field()
+  ip: string
+
+  @Field(type => Int)
+  port: number
+
+  @Field(type => Int)
+  bytes: number
+}
+
+@ObjectType()
+export class Client extends GraphQLModel<Client> {
+  @Field()
+  ip: string
+
+  @Field(type => Int)
+  port: number
+
+  @Field(type => Int)
+  bytes: number
+}
+
+
+@ObjectType()
+export class FlowEvent extends GraphQLModel<FlowEvent> {
+  @Field()
+  method: string
+
+  @Field()
+  status: string
+
+  @Field()
+  query: string
+
+  @Field()
+  resource: string
+
+  @Field()
+  type: string
 
   @Field(type => Agent)
   agent: Agent
@@ -117,5 +165,8 @@ export class FlowEvent {
 
   @Field(type => Source)
   source: Source
+
+  @Field(type => Server)
+  server: Server
 }
 

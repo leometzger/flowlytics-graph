@@ -1,19 +1,15 @@
 import {Module} from '@nestjs/common';
-import {FlowResolver} from './flows.resolver';
-import {FlowsEventsRepo} from './flows.repo'
+import {DnsResolver} from './dns.resolver'
+import {DnsFlowsRepo} from './dns.repo'
 import {Client} from '@elastic/elasticsearch'
 import {ConfigService} from '@nestjs/config';
-import {DnsModule} from './dns/dns.module';
-
 
 @Module({
-  imports: [
-    DnsModule
-  ],
+  imports: [],
   exports: [],
   providers: [
-    FlowResolver, 
-    FlowsEventsRepo,
+    DnsResolver,
+    DnsFlowsRepo,
     {
       provide: Client,
       inject: [ConfigService],
@@ -24,6 +20,6 @@ import {DnsModule} from './dns/dns.module';
         return new Client({node: `http://${hostname}:${port}`})
       }
     }
-  ],
+  ]
 })
-export class FlowsModule {}
+export class DnsModule {}

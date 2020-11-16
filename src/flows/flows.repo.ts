@@ -3,7 +3,7 @@ import {Injectable} from '@nestjs/common'
 import {FlowEvent} from './flows.models'
 import {SearchResponse} from '../common/elasticsearch'
 
-const PACKET_BEAT_INDEX = 'packetbeat-7.8.0-2020.11.06-000001'
+const PACKET_BEAT_INDEX = 'packetbeat-7.8.0-2020.11.16-000001'
 
 @Injectable()
 export class FlowsEventsRepo {
@@ -14,7 +14,8 @@ export class FlowsEventsRepo {
       index: PACKET_BEAT_INDEX,
       body: {}
     })
-    console.log(resp.body)
+    console.log(resp.body.hits.hits[1]._source)
+
     return resp.body.hits.hits.map(hit => {
       return hit._source
     })

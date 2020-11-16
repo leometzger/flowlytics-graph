@@ -25,11 +25,11 @@ export class UsersResolver {
   @Mutation(type => User)
   async createSuperUser(@Args({name: 'user'}) userIn: UserInput) {
     const superUserExists= await this.userRepository.count()
+    const user = await this.userFactory.createSuperuser(userIn)
 
     if(superUserExists) {
       throw new NotAcceptableException()
     }
-    const user = await this.userFactory.createSuperuser(userIn)
 
     await this.userRepository.save(user)
     return user

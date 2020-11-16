@@ -28,6 +28,8 @@ type Event {
   duration: Int!
   start: String!
   end: String!
+  kind: String!
+  category: String!
 }
 
 type Flow {
@@ -41,6 +43,8 @@ type Network {
   communityId: String!
   packets: Int
   transport: String!
+  direction: String!
+  protocol: String!
   type: String!
 }
 
@@ -52,13 +56,67 @@ type Source {
   port: Int!
 }
 
+type Server {
+  ip: String!
+  port: Int!
+  bytes: Int!
+}
+
 type FlowEvent {
+  method: String!
+  status: String!
+  query: String!
+  resource: String!
+  type: String!
   agent: Agent!
   destination: Destination!
   event: Event!
   flow: Flow!
   network: Network!
   source: Source!
+  server: Server!
+}
+
+type DNSQuestion {
+  name: String!
+  type: String!
+  class: String!
+}
+
+type DNSFlags {
+  authoritative: Boolean!
+  truncatedResponse: Boolean!
+  recursionDesired: Boolean!
+  recursionAvailable: Boolean!
+  authenticData: Boolean!
+  checkingDisabled: Boolean!
+}
+
+type DNS {
+  id: Int!
+  question: DNSQuestion!
+  responseCode: String!
+  flags: DNSFlags!
+  answersCount: Int!
+  opCode: String!
+  additionalsCount: Int!
+  type: String!
+}
+
+type DNSFlow {
+  method: String!
+  status: String!
+  query: String!
+  resource: String!
+  type: String!
+  agent: Agent!
+  destination: Destination!
+  event: Event!
+  flow: Flow!
+  network: Network!
+  source: Source!
+  server: Server!
+  dns: DNS!
 }
 
 type AuthToken {
@@ -67,6 +125,7 @@ type AuthToken {
 
 type Query {
   flows: [FlowEvent!]!
+  dns: [DNSFlow!]!
   users: [User!]!
 }
 
