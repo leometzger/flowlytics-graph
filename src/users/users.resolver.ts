@@ -1,4 +1,4 @@
-import {NotAcceptableException, UseGuards} from '@nestjs/common';
+import {GoneException, UseGuards} from '@nestjs/common';
 import {Args, Resolver, Query, Mutation} from '@nestjs/graphql'
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
@@ -8,7 +8,7 @@ import {GqlAuthGuard} from '../auth/graphql-guard'
 import {UsersFactory} from './users.factory';
 
 
-Resolver(of => User)
+@Resolver(of => User)
 export class UsersResolver {
 
   constructor(
@@ -24,11 +24,11 @@ export class UsersResolver {
 
   @Mutation(type => User)
   async createSuperUser(@Args({name: 'user'}) userIn: UserInput) {
-    const superUserExists= await this.userRepository.count()
     const user = await this.userFactory.createSuperuser(userIn)
+    const superUserExists = await this.userRepository.count()
 
     if(superUserExists) {
-      throw new NotAcceptableException()
+      throw new GoneException()
     }
 
     await this.userRepository.save(user)

@@ -12,9 +12,11 @@ export class FlowsEventsRepo {
   async getAllFlowEvents() {
     const resp = await this.esClient.search<SearchResponse<FlowEvent>>({
       index: PACKET_BEAT_INDEX,
-      body: {}
+      body: {
+        size: 100,
+        from: 5000,
+      }
     })
-    console.log(resp.body.hits.hits[1]._source)
 
     return resp.body.hits.hits.map(hit => {
       return hit._source

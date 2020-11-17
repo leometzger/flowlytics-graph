@@ -14,7 +14,7 @@ import {TypeOrmModule} from '@nestjs/typeorm';
     GraphQLModule.forRoot({
       playground: true,
       installSubscriptionHandlers: true,
-      autoSchemaFile: 'schema.gql',
+      autoSchemaFile: 'graphql/schema.gql',
       context: ({req}) => ({req})
     }),
     TypeOrmModule.forRootAsync({
