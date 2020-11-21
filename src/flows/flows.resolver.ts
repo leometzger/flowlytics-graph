@@ -1,8 +1,9 @@
-import {Resolver, Query} from '@nestjs/graphql'
+import {Resolver, Query, InputType} from '@nestjs/graphql'
 import {FlowEvent} from './flows.models'
 import {UseGuards} from '@nestjs/common';
 import {GqlAuthGuard} from '../auth/graphql-guard'
 import {FlowsEventsRepo} from './flows.repo'
+
 
 
 @Resolver(of => FlowEvent)

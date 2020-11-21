@@ -1,6 +1,7 @@
 import {FlowEvent} from '../flows.models'
 import {Field, Int, ObjectType} from '@nestjs/graphql';
 import {GraphQLModel} from '../../common/graphql'
+import {Client} from '../flows.models'
 
 
 @ObjectType()
@@ -68,4 +69,24 @@ export class DNS extends GraphQLModel<DNS> {
 export class DNSFlow extends FlowEvent {
   @Field()
   dns: DNS
+}
+
+
+@ObjectType()
+export class DNSResponseCode {
+  @Field()
+  code: string
+
+  @Field()
+  count: number
+
+  @Field({nullable: true})
+  unixDatetime?: number
+
+  @Field(type => [DNSFlow])
+  flows?: [DNSFlow]
+
+
+  @Field(type => [Client])
+  clients?: [Client]
 }

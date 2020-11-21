@@ -11,6 +11,21 @@ export interface ShardsResponse {
   skipped: number;
 }
 
+export interface BucketResult {
+  key: string | object
+  key_as_string?: string
+  doc_count: number
+}
+
+export interface Pagination {
+  size?: number
+  from?: number
+}
+
+export interface TimeSeriesQuery {
+  
+}
+
 export interface SearchResponse<T> {
   took: number;
   timed_out: boolean;

@@ -62,6 +62,12 @@ type Server {
   bytes: Int!
 }
 
+type Client {
+  ip: String!
+  port: Int!
+  bytes: Int!
+}
+
 type FlowEvent {
   method: String!
   status: String!
@@ -119,6 +125,14 @@ type DNSFlow {
   dns: DNS!
 }
 
+type DNSResponseCode {
+  code: String!
+  count: Float!
+  unixDatetime: Float
+  flows: [DNSFlow!]!
+  clients: [Client!]!
+}
+
 type AuthToken {
   access_token: String!
 }
@@ -126,7 +140,12 @@ type AuthToken {
 type Query {
   flows: [FlowEvent!]!
   dns: [DNSFlow!]!
+  dnsResponses(query: DNSResponseQuery): [DNSResponseCode!]!
   users: [User!]!
+}
+
+input DNSResponseQuery {
+  interval: String!
 }
 
 type Mutation {

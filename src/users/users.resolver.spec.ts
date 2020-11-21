@@ -1,5 +1,5 @@
-import { GoneException } from "@nestjs/common";
-import { Test } from "@nestjs/testing";
+import {GoneException} from "@nestjs/common";
+import {Test} from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {UsersFactory} from "./users.factory";
