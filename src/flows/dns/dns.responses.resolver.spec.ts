@@ -1,5 +1,6 @@
-import {DnsFlowsRepo, DnsFlowsAggregationRepo} from "./dns.repo"
-import {DnsResponseCodeResolver} from "./dns.resolver"
+import {DnsFlowsRepo} from "./dns.repo"
+import {DnsFlowsAggregationRepo} from './dns.aggregation.repo'
+import {DnsResponseCodeResolver} from "./dns.responses.resolver"
 import {Test} from "@nestjs/testing";
 import {DNSResponseCode} from "./dns.models";
 import {Client} from "@elastic/elasticsearch";

@@ -1,6 +1,8 @@
 import {Module} from '@nestjs/common';
-import {DnsResolver, DnsResponseCodeResolver} from './dns.resolver'
-import {DnsFlowsRepo, DnsFlowsAggregationRepo} from './dns.repo'
+import {DnsResolver} from './dns.resolver'
+import {DnsResponseCodeResolver} from './dns.responses.resolver'
+import {DnsFlowsRepo} from './dns.repo'
+import {DnsFlowsAggregationRepo} from './dns.aggregation.repo'
 import {Client} from '@elastic/elasticsearch'
 import {ConfigService} from '@nestjs/config';
 
