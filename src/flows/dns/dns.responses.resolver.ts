@@ -1,5 +1,5 @@
 import {Resolver, Query, Args, ResolveField, Parent} from '@nestjs/graphql'
-import {DNSResponseCode} from './dns.models'
+import {DNSFlow, DNSResponseCode} from './dns.models'
 import {UseGuards} from '@nestjs/common';
 import {GqlAuthGuard} from '../../auth/graphql-guard'
 import {DnsFlowsRepo} from './dns.repo';
@@ -26,7 +26,7 @@ export class DnsResponseCodeResolver {
   }
 
   @ResolveField()
-  async flows(@Parent() dnsResponseCode: DNSResponseCode) {
-    return this.repository.getDnsFlowEvents(dnsResponseCode.code)
+  async flows(@Parent() dnsResponseCode: DNSResponseCode): Promise<DNSFlow[]> {
+    return this.repository.getDnsFlowEventsByResponseCode(dnsResponseCode.code)
   }
 }

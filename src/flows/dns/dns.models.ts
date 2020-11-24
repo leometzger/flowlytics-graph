@@ -85,8 +85,4 @@ export class DNSResponseCode {
 
   @Field(type => [DNSFlow])
   flows?: [DNSFlow]
-
-
-  @Field(type => [Client])
-  clients?: [Client]
 }
