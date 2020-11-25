@@ -31,15 +31,13 @@ export class DnsFlowsRepo {
   }
 
   async getDnsFlowEventsByResponseCode(responseCode: string): Promise<DNSFlow[]> {
-    const searchBody = bodybuilder()
+    const resp = await this.esClient.search<SearchResponse<DNSFlow>>({
+      index: PACKET_BEAT_INDEX,
+      body: bodybuilder()
       .query('match', 'type', 'dns')
       .filter('match', 'dns.response_code', 'nxdomain')
       .size(100)
       .build()
-
-    const resp = await this.esClient.search<SearchResponse<DNSFlow>>({
-      index: PACKET_BEAT_INDEX,
-      body: searchBody 
     })
 
     return fromHitsToDnsFlows(resp.body.hits.hits)

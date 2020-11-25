@@ -1,9 +1,10 @@
+import * as bodybuilder from 'bodybuilder'
 import {Client} from '@elastic/elasticsearch'
 import {DNSResponseCode} from './dns.models'
 import {Injectable} from '@nestjs/common'
 import {get, map} from 'lodash/fp'
 
-const PACKET_BEAT_INDEX = 'packetbeat-7.8.0-2020.11.20-000001'
+export const PACKET_BEAT_INDEX = 'packetbeat-7.8.0-2020.11.20-000001'
 const PACKETBEAT_TYPE = 'dns'
 
 
@@ -26,23 +27,15 @@ export class DnsFlowsAggregationRepo {
   constructor(private esClient: Client) {}
 
   async countFlowsByResponseCodes(): Promise<DNSResponseCode[]> {
+    const searchBody = bodybuilder()
+      .query('match', {type: PACKETBEAT_TYPE})
+      .size(0)
+      .aggregation('terms', {field: 'dns.response_code'}, 'responseCodes')
+      .build()
+
      const resp = await this.esClient.search({
       index: PACKET_BEAT_INDEX,
-      body: {
-        size: 0,
-        query: {
-          match: {
-            type: PACKETBEAT_TYPE,
-          }
-        },
-        aggs: {
-          responseCodes: {
-            terms: {
-              field: "dns.response_code"
-            }
-          }
-        }
-      }
+      body: searchBody
     })
     const buckets = resp.body.aggregations.responseCodes.buckets
 
@@ -50,7 +43,7 @@ export class DnsFlowsAggregationRepo {
   }
 
   async countFlowsByResponseCodeByInterval(interval: string): Promise<DNSResponseCode[]> {
-     const resp = await this.esClient.search({
+    const resp = await this.esClient.search({
       index: PACKET_BEAT_INDEX,
       body: {
         size: 0,
