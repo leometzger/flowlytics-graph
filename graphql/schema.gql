@@ -62,12 +62,6 @@ type Server {
   bytes: Int!
 }
 
-type Client {
-  ip: String!
-  port: Int!
-  bytes: Int!
-}
-
 type FlowEvent {
   method: String!
   status: String!
@@ -130,7 +124,6 @@ type DNSResponseCode {
   count: Float!
   unixDatetime: Float
   flows: [DNSFlow!]!
-  clients: [Client!]!
 }
 
 type AuthToken {
